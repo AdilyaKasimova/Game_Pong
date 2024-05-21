@@ -6,12 +6,14 @@ float player_pos_x = 0.f;
 float player_pos_y = 0.f;
 
 internal void 
-simulate_game(Input* input){
+simulate_game(Input* input, float dt){
 	clear_screen(0xff5500);
-	if (is_down(BUTTON_UP)) player_pos_y += .5f;
-	if (is_down(BUTTON_DOWN)) player_pos_y -= .5f;
-	if (is_down(BUTTON_LEFT)) player_pos_x -= .5f;
-	if (is_down(BUTTON_RIGHT)) player_pos_x += .5f;
+
+	float speed = 50.f; // Скорость выраженная в единицах/секунду 
+	if (is_down(BUTTON_UP)) player_pos_y += speed * dt;
+	if (is_down(BUTTON_DOWN)) player_pos_y -= speed * dt;
+	if (is_down(BUTTON_LEFT)) player_pos_x -= speed * dt;
+	if (is_down(BUTTON_RIGHT)) player_pos_x += speed * dt;
 
 	draw_rect(player_pos_x, player_pos_y, 5, 5, 0x00ff22);
 	draw_rect(30, 30, 1, 1, 0x00ff22);
