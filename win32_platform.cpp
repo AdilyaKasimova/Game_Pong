@@ -14,7 +14,9 @@ struct Render_State {
 
 global_variable Render_State render_state;
 
+#include "platform_common.cpp"
 #include "renderer.cpp"
+#include "game.cpp"
 
 LRESULT CALLBACK window_callback(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) { // Это окно обратного вызова
 	LRESULT result = 0;
@@ -34,7 +36,7 @@ LRESULT CALLBACK window_callback(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			if (render_state.memory) VirtualFree(render_state.memory, 0, MEM_RELEASE);
 			render_state.memory = VirtualAlloc(0, size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
-			
+
 			render_state.bitmap_info.bmiHeader.biSize = sizeof(render_state.bitmap_info.bmiHeader);
 			render_state.bitmap_info.bmiHeader.biWidth = render_state.width;
 			render_state.bitmap_info.bmiHeader.biHeight = render_state.height;
@@ -65,19 +67,49 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 	HWND window = CreateWindow(window_class.lpszClassName, TEXT("Pong"), WS_OVERLAPPEDWINDOW | WS_VISIBLE, CW_USEDEFAULT, CW_USEDEFAULT, 1280, 720, 0, 0, hInstance, 0);
 	HDC hdc = GetDC(window);
 
+	Input input = {};
+
 	while (running) {
 		// Input
 		MSG message;
-		while (PeekMessage(&message, window, 0, 0, PM_REMOVE)) {
-			TranslateMessage(&message);
-			DispatchMessage(&message);
+
+		for (int i = 0; i < BUTTON_COUNT; i++) { // Обнуляем значение changed в начале каждого кадра
+			input.buttons[i].changed = false;
 		}
+
+		while (PeekMessage(&message, window, 0, 0, PM_REMOVE)) {
+
+			switch (message.message) { // Обрабатывааем события ввода
+				case WM_KEYUP:
+				case WM_KEYDOWN: {
+					u32 vk_code = (u32)message.wParam;
+					bool is_down = ((message.lParam & (1 << 31)) == 0);
+
+#define process_button(b, vk)\
+case vk: {\
+input.buttons[b].is_down = is_down;\
+input.buttons[b].changed = true;\
+} break;
+
+					switch (vk_code) {
+						process_button(BUTTON_UP, VK_UP);
+						process_button(BUTTON_DOWN, VK_DOWN);
+						process_button(BUTTON_LEFT, VK_LEFT);
+						process_button(BUTTON_RIGHT, VK_RIGHT);
+					}
+				} break;
+
+				default: {
+					TranslateMessage(&message);
+					DispatchMessage(&message);
+				}
+			}
+		}
+
 		// Simulate
-		clear_screen(0x274C77);
-		draw_rect(0, 0, 2, 2, 0x000000);
+		simulate_game(&input);
+
 		// Render
 		StretchDIBits(hdc, 0, 0, render_state.width, render_state.height, 0, 0, render_state.width, render_state.height, render_state.memory, &render_state.bitmap_info, DIB_RGB_COLORS, SRCCOPY);
-
-
 	}
 }
