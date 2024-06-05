@@ -11,6 +11,7 @@ enum {
 	BUTTON_LEFT,
 	BUTTON_RIGHT,
 	BUTTON_ENTER,
+	BUTTON_ESCAPE,
 
 	BUTTON_COUNT, // Это должен быть последний пункт
 };

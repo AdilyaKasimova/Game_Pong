@@ -122,6 +122,10 @@ simulate_game(Input* input, float dt){
 
 		draw_rect(80, player_1_p, player_half_size_x, player_half_size_y, 0xBC6C25); // Игрок правый (управление - стрелки вверх/вниз)
 		draw_rect(-80, player_2_p, player_half_size_x, player_half_size_y, 0xBC6C25); // Игрок левый (управление - W/S)
+
+		if (pressed(BUTTON_ESCAPE)) {
+			current_gamemode = GM_MENU;
+		}
 	}
 	else { // МЕНЮ
 		if (pressed(BUTTON_LEFT) || pressed(BUTTON_RIGHT)) { // Выбор режима игры

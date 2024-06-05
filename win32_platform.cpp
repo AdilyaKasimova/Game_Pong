@@ -114,6 +114,7 @@ input.buttons[b].changed = true;\
 						process_button(BUTTON_LEFT, VK_LEFT);
 						process_button(BUTTON_RIGHT, VK_RIGHT);
 						process_button(BUTTON_ENTER, VK_RETURN);
+						process_button(BUTTON_ESCAPE, VK_ESCAPE);
 					}
 				} break;
 
