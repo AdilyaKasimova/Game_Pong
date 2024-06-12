@@ -60,9 +60,12 @@ bool aabb_vs_aabb(float ball_p_x, float ball_p_y, float ball_hs,
             ball_p_y + ball_hs < player_p_y + player_hs_y);
 }
 
+/**
+ * \brief Enumeration representing the different game modes.
+ */
 enum Gamemode {
-    GM_MENU,
-    GM_GAMEPLAY,
+    GM_MENU, /**< Game mode for the main menu. */
+    GM_GAMEPLAY, /**< Game mode for gameplay. */
 };
 
 Gamemode current_gamemode;
