@@ -7,11 +7,13 @@
 
 static bool running = true;
 
+/**
+ * \brief Structure representing the rendering state.
+ */
 struct Render_State {
-    int height, width;
-    void *memory;
-
-    BITMAPINFO bitmap_info;
+    int height, width; /**< Height and width of the render. */
+    void *memory; /**< Pointer to render memory. */
+    BITMAPINFO bitmap_info; /**< Bitmap information. */
 };
 
 static Render_State render_state;
@@ -20,13 +22,19 @@ static Render_State render_state;
 #include "renderer.cpp"
 #include "game.cpp"
 
-LRESULT CALLBACK
-window_callback(HWND
-                hwnd,
-                UINT uMsg, WPARAM
-                wParam,
-                LPARAM lParam
-) { // Это окно обратного вызова
+/**
+ * \brief Window callback procedure.
+ *
+ * \param hwnd The window handle.
+ * \param uMsg The window message.
+ * \param wParam Additional message data.
+ * \param lParam Additional message data.
+ * \return The result of message processing.
+ *
+ * Window procedure callback. Handles window messages such as window closure and resizing.
+ */
+LRESULT CALLBACK window_callback(HWND hwnd, UINT uMsg, WPARAM wParam,LPARAM lParam) {
+    // Это окно обратного вызова, которое обрабатывает сообщения
     LRESULT result = 0;
     switch (uMsg) {
         case WM_CLOSE:
@@ -68,6 +76,18 @@ window_callback(HWND
     return result;
 }
 
+/**
+ * \brief Windows application entry point.
+ *
+ * \param hInstance The application instance handle.
+ * \param hPrevInstance Unused handle to the previous instance.
+ * \param lpCmdLine Command line arguments.
+ * \param nShowCmd Flags for displaying the window.
+ * \return The application return code.
+ *
+ * WinMain function serves as the entry point for the Windows application. It creates a window, handles input,
+ * and calls functions for simulation and rendering.
+ */
 int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) {
 
     ShowCursor(FALSE); // Прячем курсор

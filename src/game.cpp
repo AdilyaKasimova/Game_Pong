@@ -9,6 +9,20 @@ float ball_p_x, ball_p_y, ball_dp_x = 100, ball_dp_y, ball_half_size = 1;
 
 int player_1_score, player_2_score;
 
+/**
+ * \brief Simulates the player's movement with friction and collision detection.
+ *
+ * \param p Pointer to the player's current position.
+ * \param dp Pointer to the player's current velocity.
+ * \param ddp Acceleration applied to the player.
+ * \param dt Time step for the simulation.
+ *
+ * This function updates the player's position and velocity based on the provided acceleration and
+ * time step. It also includes friction and collision detection with the arena boundaries.
+ * Friction is simulated by reducing the velocity by a factor of 10.0f.
+ * If the player collides with the top or bottom boundary of the arena, their position is adjusted
+ * to be within bounds and their velocity is set to zero.
+ */
 void simulate_player(float *p, float *dp, float ddp, float dt) {
     ddp -= *dp * 10.f; // Сила трения
     *p = *p + *dp * dt + ddp * dt * dt * .5f; // Уравнения для равноускоренного движения
@@ -23,7 +37,21 @@ void simulate_player(float *p, float *dp, float ddp, float dt) {
     }
 }
 
-// Данная функция проверяет факт столкновения мяча с игроком
+/**
+ * \brief Checks for a collision between a ball and a player using AABB (Axis-Aligned Bounding Box) method.
+ *
+ * \param ball_p_x X-coordinate of the ball's position.
+ * \param ball_p_y Y-coordinate of the ball's position.
+ * \param ball_hs Half-size (radius) of the ball.
+ * \param player_p_x X-coordinate of the player's position.
+ * \param player_p_y Y-coordinate of the player's position.
+ * \param player_hs_x Half-size of the player along the X-axis.
+ * \param player_hs_y Half-size of the player along the Y-axis.
+ * \return true if there is a collision, false otherwise.
+ *
+ * This function checks for a collision between a ball and a player by comparing their bounding boxes.
+ * It returns true if the bounding boxes intersect, indicating a collision, and false otherwise.
+ */
 bool aabb_vs_aabb(float ball_p_x, float ball_p_y, float ball_hs,
                   float player_p_x, float player_p_y, float player_hs_x, float player_hs_y) {
     return (ball_p_x + ball_hs > player_p_x - player_hs_x and
@@ -41,6 +69,20 @@ Gamemode current_gamemode;
 int hot_button;
 bool enemy_is_ai;
 
+
+/**
+ * \brief Simulates the game logic and renders the game state.
+ *
+ * \param input Pointer to the Input structure containing user input.
+ * \param dt Time step for the simulation.
+ *
+ * This function simulates the gameplay, including player movement, ball physics, collision detection,
+ * and scoring. It also handles rendering of the game state, including the arena, players, ball, and
+ * score display. The function switches between gameplay and menu modes based on the current game mode.
+ * In gameplay mode, player input is processed to control player movement, and collision detection is
+ * performed to determine interactions between players and the ball. In menu mode, the function renders
+ * the menu interface and allows the user to select the game mode (single player or multiplayer).
+ */
 void simulate_game(Input *input, float dt) {
     clear_screen(0x606C38);
     draw_rect(0, 0, arena_half_size_x, arena_half_size_y, 0xFEFAE0); // Арена

@@ -22,9 +22,9 @@ TEST(SimulatePlayerTest, CollisionWithUpperBoundary) {
     simulate_player(&p_2, &dp_2, 5.0f, 0.1f);
     // Проверка правильности обрабатывания столкновения с верхней границей
     EXPECT_FLOAT_EQ(p_1, 33.0f);
-    EXPECT_FLOAT_EQ(dp_1, 0.0f);
+    EXPECT_FLOAT_EQ(dp_1, 0.0f); // Столкновение произошло
     EXPECT_FLOAT_EQ(p_2, 20.275f);
-    EXPECT_FLOAT_EQ(dp_2, 0.5f);
+    EXPECT_FLOAT_EQ(dp_2, 0.5f); // Столкновения не было
 }
 
 // Тесты для функции aabb_vs_aabb

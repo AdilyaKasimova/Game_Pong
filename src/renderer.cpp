@@ -1,6 +1,13 @@
 // Здесь прописаны средства визуализации
 
-
+/**
+ * \brief Clears the screen with a specified color.
+ *
+ * \param color The color to fill the screen with in a 32-bit unsigned integer format.
+ *
+ * This function fills the entire screen with the specified color. It iterates over each pixel
+ * in the render state's memory and sets its color to the provided value.
+ */
 void clear_screen(u32 color) {
     u32 *pixel = (u32 *) render_state.memory;
     for (int y = 0; y < render_state.height; y++) {
@@ -10,7 +17,19 @@ void clear_screen(u32 color) {
     }
 }
 
-
+/**
+ * \brief Draws a filled rectangle in pixel coordinates on the screen.
+ *
+ * \param x0 The X-coordinate of the left edge of the rectangle.
+ * \param y0 The Y-coordinate of the top edge of the rectangle.
+ * \param x1 The X-coordinate of the right edge of the rectangle.
+ * \param y1 The Y-coordinate of the bottom edge of the rectangle.
+ * \param color The color of the rectangle in a 32-bit unsigned integer format.
+ *
+ * This function draws a filled rectangle on the screen using pixel coordinates. The coordinates
+ * are clamped to ensure they are within the bounds of the screen. The rectangle is then drawn by
+ * setting the color of the pixels within the specified bounds.
+ */
 void draw_rect_in_pixels(int x0, int y0, int x1, int y1, u32 color) {
 
     x0 = clamp(0, x0, render_state.width);
@@ -29,7 +48,20 @@ void draw_rect_in_pixels(int x0, int y0, int x1, int y1, u32 color) {
 
 static float render_scale = 0.01f;
 
-// Делаем размер досок зависимыми от размера экрана
+/**
+ * \brief Draws a rectangle on the screen.
+ *
+ * \param x X-coordinate of the center of the rectangle.
+ * \param y Y-coordinate of the center of the rectangle.
+ * \param half_size_x Half of the rectangle's width.
+ * \param half_size_y Half of the rectangle's height.
+ * \param color Color of the rectangle in a 32-bit unsigned integer format.
+ *
+ * This function draws a rectangle on the screen, centered at (x, y) with the specified half-sizes.
+ * The coordinates and sizes are scaled based on the current render state and then converted to
+ * pixel values. The rectangle is drawn using the `draw_rect_in_pixels` function, which takes the
+ * pixel coordinates of the rectangle's corners and the color.
+ */
 void draw_rect(float x, float y, float half_size_x, float half_size_y, u32 color) {
     x *= render_state.height * render_scale;
     y *= render_state.height * render_scale;
@@ -258,6 +290,20 @@ const char *letters[][7] = {
         "00000",
 };
 
+/**
+ * \brief Draws text on the screen.
+ *
+ * \param text Pointer to the string containing the text to be drawn.
+ * \param x X-coordinate of the starting position of the text.
+ * \param y Y-coordinate of the starting position of the text.
+ * \param size Size of the text to be drawn.
+ * \param color The color of the text in a 32-bit unsigned integer format.
+ *
+ * This function draws text on the screen starting from the specified position (x, y). It iterates
+ * over each character in the input string and draws its corresponding representation using
+ * rectangles. The size parameter determines the scale of the text, and the color parameter sets
+ * the color of the text.
+ */
 void draw_text(const char *text, float x, float y, float size, u32 color) { // Прорисовка надписи
     float half_size = size * .5f;
     float original_y = y;
@@ -284,6 +330,20 @@ void draw_text(const char *text, float x, float y, float size, u32 color) { // �
     }
 }
 
+/**
+ * \brief Draws a number on the screen.
+ *
+ * \param number The number to be drawn.
+ * \param x X-coordinate of the starting position of the number.
+ * \param y Y-coordinate of the starting position of the number.
+ * \param size Size of the number to be drawn.
+ * \param color The color of the number in a 32-bit unsigned integer format.
+ *
+ * This function draws a number on the screen starting from the specified position (x, y). It
+ * iterates over each digit of the input number and draws its representation using rectangles.
+ * The size parameter determines the scale of the number, and the color parameter sets the color
+ * of the number.
+ */
 void draw_number(int number, float x, float y, float size, u32 color) {
     float half_size = size * .5f;
 
