@@ -1,4 +1,4 @@
-// ����� ��������� �������� ������������
+// Здесь прописаны средства визуализации
 
 
 void clear_screen(u32 color) {
@@ -29,7 +29,7 @@ void draw_rect_in_pixels(int x0, int y0, int x1, int y1, u32 color) {
 
 static float render_scale = 0.01f;
 
-// ������ ������ ����� ���������� �� ������� ������
+// Делаем размер досок зависимыми от размера экрана
 void draw_rect(float x, float y, float half_size_x, float half_size_y, u32 color) {
     x *= render_state.height * render_scale;
     y *= render_state.height * render_scale;
@@ -258,7 +258,7 @@ const char *letters[][7] = {
         "00000",
 };
 
-void draw_text(const char *text, float x, float y, float size, u32 color) { // ���������� �������
+void draw_text(const char *text, float x, float y, float size, u32 color) { // Прорисовка надписи
     float half_size = size * .5f;
     float original_y = y;
 

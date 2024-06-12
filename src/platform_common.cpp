@@ -13,7 +13,7 @@ enum {
     BUTTON_ENTER,
     BUTTON_ESCAPE,
 
-    BUTTON_COUNT, // ��� ������ ���� ��������� �����
+    BUTTON_COUNT,
 };
 
 struct Input {

@@ -3,7 +3,7 @@
 #include "utils.cpp"
 #include <windows.h>
 
-// ����� ��������� �������� �������� ����
+// Здесь прописано создание игрового окна
 
 static bool running = true;
 
@@ -26,16 +26,16 @@ window_callback(HWND
                 UINT uMsg, WPARAM
                 wParam,
                 LPARAM lParam
-) { // ��� ���� ��������� ������
+) { // Это окно обратного вызова
     LRESULT result = 0;
     switch (uMsg) {
         case WM_CLOSE:
-        case WM_DESTROY: { // �������� ����
+        case WM_DESTROY: { // Закрытие игры
             running = false;
         }
             break;
 
-        case WM_SIZE: { // ����� ���������� ���� ������� ����
+        case WM_SIZE: { // Здесь происходит учет размера окна
             RECT rect;
             GetClientRect(hwnd, &rect);
             render_state.width = rect.right - rect.left;
@@ -70,7 +70,7 @@ window_callback(HWND
 
 int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) {
 
-    ShowCursor(FALSE); // ������ ������
+    ShowCursor(FALSE); // Прячем курсор
 
     // Create Window Class
     WNDCLASS window_class = {};
@@ -93,7 +93,7 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
     LARGE_INTEGER frame_begin_time;
     QueryPerformanceCounter(&frame_begin_time);
 
-    float performance_frequency; // ������� ������� ���������� ��������, ��� ���������� ���������� ������ ������ ����������, ������� ����� ��������� �� ���� 2-�� ����
+    float performance_frequency; // Функция частоты обновления запросов, она возвращает количество циклов работы процессора, которые можно выполнить за один 2-ой цикл
     LARGE_INTEGER perf;
     QueryPerformanceFrequency(&perf);
     performance_frequency = (float) perf.QuadPart;
@@ -102,11 +102,11 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
         // Input
         MSG message;
 
-        for (int i = 0; i < BUTTON_COUNT; i++) // �������� �������� changed � ������ ������� �����
+        for (int i = 0; i < BUTTON_COUNT; i++) // Обнуляем значение changed в начале каждого кадра
             input.buttons[i].changed = false;
 
         while (PeekMessage(&message, window, 0, 0, PM_REMOVE)) {
-            switch (message.message) { // ������������� ������� �����
+            switch (message.message) { // Обрабатывааем события ввода
                 case WM_KEYUP:
                 case WM_KEYDOWN: {
                     u32 vk_code = (u32) message.wParam;
@@ -142,7 +142,7 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 
         LARGE_INTEGER frame_end_time;
         QueryPerformanceCounter(&frame_end_time);
-        // ������� ���������� � ��������/����
+        // Вычислим скорость, выраженную в секундах на кадр
         delta_time = (float) (frame_end_time.QuadPart - frame_begin_time.QuadPart) / performance_frequency;
         frame_begin_time = frame_end_time;
     }
