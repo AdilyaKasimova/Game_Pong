@@ -9,9 +9,8 @@ float ball_p_x, ball_p_y, ball_dp_x = 100, ball_dp_y, ball_half_size = 1;
 
 int player_1_score, player_2_score;
 
-internal void
-simulate_player(float *p, float *dp, float ddp, float dt) {
-    ddp -= *dp * 10.f; // ���� ������
+void simulate_player(float *p, float *dp, float ddp, float dt) {
+    ddp -= *dp * 10.f; // сила трения
     *p = *p + *dp * dt + ddp * dt * dt * .5f; // ��������� ��� ���������������� ��������
     *dp = *dp + ddp * dt;
 
@@ -26,7 +25,7 @@ simulate_player(float *p, float *dp, float ddp, float dt) {
 
 // ��������� ���� ������������ ���� � �������
 bool aabb_vs_aabb(float ball_p_x, float ball_p_y, float ball_hs,
-             float player_p_x, float player_p_y, float player_hs_x, float player_hs_y) {
+                  float player_p_x, float player_p_y, float player_hs_x, float player_hs_y) {
     return (ball_p_x + ball_hs > player_p_x - player_hs_x and
             ball_p_x - ball_hs < player_p_x + player_hs_x and
             ball_p_y + ball_hs > player_p_y - player_hs_y and
@@ -42,8 +41,7 @@ Gamemode current_gamemode;
 int hot_button;
 bool enemy_is_ai;
 
-internal void
-simulate_game(Input *input, float dt) {
+void simulate_game(Input *input, float dt) {
     clear_screen(0x606C38);
     draw_rect(0, 0, arena_half_size_x, arena_half_size_y, 0xFEFAE0); // �����
 
@@ -74,7 +72,7 @@ simulate_game(Input *input, float dt) {
 
 
             if (aabb_vs_aabb(ball_p_x, ball_p_y, ball_half_size, 80, player_1_p,
-                             player_half_size_x,player_half_size_y)) { // ������������ ���� � ������ �������
+                             player_half_size_x, player_half_size_y)) { // ������������ ���� � ������ �������
                 ball_p_x = 80 - player_half_size_x - ball_half_size;
                 ball_dp_x *= -1;
                 ball_dp_y = (ball_p_y - player_1_p) * 2 + player_1_dp * .75f;

@@ -25,7 +25,6 @@ include_directories(Tests ${GOOGLETEST_ROOT}/googletest/include)
 add_executable(
         Tests
         test/tests.cpp
-        src/win32_platform.cpp
 )
 target_link_libraries(Tests gtest gtest_main)
 

@@ -1,8 +1,7 @@
 // ����� ��������� �������� ������������
 
 
-internal void
-clear_screen(u32 color) {
+void clear_screen(u32 color) {
     u32 *pixel = (u32 *) render_state.memory;
     for (int y = 0; y < render_state.height; y++) {
         for (int x = 0; x < render_state.width; x++) {
@@ -12,8 +11,7 @@ clear_screen(u32 color) {
 }
 
 
-internal void
-draw_rect_in_pixels(int x0, int y0, int x1, int y1, u32 color) {
+void draw_rect_in_pixels(int x0, int y0, int x1, int y1, u32 color) {
 
     x0 = clamp(0, x0, render_state.width);
     x1 = clamp(0, x1, render_state.width);
@@ -29,11 +27,10 @@ draw_rect_in_pixels(int x0, int y0, int x1, int y1, u32 color) {
     }
 }
 
-global_variable float render_scale = 0.01f;
+static float render_scale = 0.01f;
 
-internal void
 // ������ ������ ����� ���������� �� ������� ������
-draw_rect(float x, float y, float half_size_x, float half_size_y, u32 color) {
+void draw_rect(float x, float y, float half_size_x, float half_size_y, u32 color) {
     x *= render_state.height * render_scale;
     y *= render_state.height * render_scale;
     half_size_x *= render_state.height * render_scale;
@@ -261,8 +258,7 @@ const char *letters[][7] = {
         "00000",
 };
 
-internal void
-draw_text(const char *text, float x, float y, float size, u32 color) { // ���������� �������
+void draw_text(const char *text, float x, float y, float size, u32 color) { // ���������� �������
     float half_size = size * .5f;
     float original_y = y;
 
@@ -288,8 +284,7 @@ draw_text(const char *text, float x, float y, float size, u32 color) { // ��
     }
 }
 
-internal void
-draw_number(int number, float x, float y, float size, u32 color) {
+void draw_number(int number, float x, float y, float size, u32 color) {
     float half_size = size * .5f;
 
     bool drew_number = false;

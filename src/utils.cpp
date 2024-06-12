@@ -7,11 +7,7 @@ typedef unsigned int u32;
 typedef long long s64;
 typedef unsigned long long u64;
 
-#define global_variable static
-#define internal static
-
-inline int
-clamp(int min, int val, int max) { // ������� �������� �������
+inline int clamp(int min, int val, int max) { // ������� �������� �������
     if (val < min) return min;
     if (val > max) return max;
     return val;

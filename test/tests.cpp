@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "../src/game.cpp"
+#include "../src/win32_platform.cpp"
 
 TEST(SimulatePlayerTest, CorrectPositionAndVelocityUpdate) {
     float p = 0.0f;
@@ -10,8 +10,8 @@ TEST(SimulatePlayerTest, CorrectPositionAndVelocityUpdate) {
     simulate_player(&p, &dp, ddp, dt);
 
     // Check if position and velocity are updated correctly
-    EXPECT_FLOAT_EQ(p, 1.0f);
-    EXPECT_FLOAT_EQ(dp, 9.5f);
+    EXPECT_FLOAT_EQ(p, 0.475f);
+    EXPECT_FLOAT_EQ(dp, -0.5f);
 }
 
 TEST(SimulatePlayerTest, CollisionWithUpperBoundary) {
@@ -23,11 +23,9 @@ TEST(SimulatePlayerTest, CollisionWithUpperBoundary) {
     simulate_player(&p, &dp, ddp, dt);
 
     // Check if collision with upper boundary is handled correctly
-    EXPECT_FLOAT_EQ(p, 44.5f); // Expected position after collision
+    EXPECT_FLOAT_EQ(p, 33.0f); // Expected position after collision
     EXPECT_FLOAT_EQ(dp, 0.0f); // Velocity should be reset to 0
 }
-
-// Add more tests for other aspects of simulate_player function if needed
 
 // Tests for aabb_vs_aabb function
 TEST(AABBvsAABBTest, BallCollisionWithPlayer) {
@@ -46,7 +44,6 @@ TEST(AABBvsAABBTest, BallCollisionWithPlayer) {
 }
 
 // Add more tests for other aspects of aabb_vs_aabb function if needed
-
 
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);

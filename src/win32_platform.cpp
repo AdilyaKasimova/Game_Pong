@@ -5,7 +5,7 @@
 
 // ����� ��������� �������� �������� ����
 
-global_variable bool running = true;
+static bool running = true;
 
 struct Render_State {
     int height, width;
@@ -14,7 +14,7 @@ struct Render_State {
     BITMAPINFO bitmap_info;
 };
 
-global_variable Render_State render_state;
+static Render_State render_state;
 
 #include "platform_common.cpp"
 #include "renderer.cpp"
@@ -122,7 +122,7 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
                         process_button(BUTTON_ESCAPE, VK_ESCAPE);
                     }
                 }
-                break;
+                    break;
 
                 default: {
                     TranslateMessage(&message);
@@ -137,7 +137,7 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
         // Render
         StretchDIBits(hdc, 0, 0, render_state.width,
                       render_state.height, 0, 0, render_state.width,
-                      render_state.height,render_state.memory, &render_state.bitmap_info,
+                      render_state.height, render_state.memory, &render_state.bitmap_info,
                       DIB_RGB_COLORS, SRCCOPY);
 
         LARGE_INTEGER frame_end_time;
